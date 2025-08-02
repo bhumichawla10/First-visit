@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Password Strength Checker</h1>
+            
+            <form method="POST" class="password-form">
+                <div class="input-group">
+                    <label for="password">Enter your password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        value="{{ password }}" 
+                        placeholder="Type your password here..."
+                        required
+                    >
+                </div>
+                <button type="submit" class="submit-btn">Check Strength</button>
+            </form>
+            
+            {% if result %}
+            <div class="results">
+                <div class="score-section">
+                    <h2>Password Analysis</h2>
+                    <div class="score-display">
+                        <div class="score-number">{{ result.score }}/10</div>
+                        <div class="strength-level {{ result.level_class }}">
+                            {{ result.level }}
+                        </div>
+                    </div>
+                    <div class="strength-bar">
+                        <div class="strength-fill {{ result.level_class }}" style="width: {{ (result.score / 10) * 100 }}%"></div>
+                    </div>
+                </div>
+                
+                {% if result.feedback %}
+                <div class="feedback-section">
+                    <h3>Recommendations</h3>
+                    <ul class="feedback-list">
+                        {% for suggestion in result.feedback %}
+                        <li>{{ suggestion }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <div class="tips-section">
+                <h3>Password Tips</h3>
+                <ul class="tips-list">
+                    <li>Use at least 12 characters</li>
+                    <li>Include uppercase and lowercase letters</li>
+                    <li>Add numbers and special characters</li>
+                    <li>Avoid common words and patterns</li>
+                    <li>Don't use personal information</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
